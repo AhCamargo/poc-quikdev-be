@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Permission {
+  id        String   @id @default(uuid())
+  rules     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  User      User?
+}
+
+model User {
+  id           String     @id @default(uuid())
+  name         String
+  email        String     @unique
+  password     String
+  permission   Permission @relation(fields: [permissionId], references: [id])
+  permissionId String     @unique
+  posts        Post[]
+  Comment      Comment[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @default(now())
+}
+
+model Post {
+  id          String    @id @default(uuid())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  title       String
+  description String
+  images      Image[]
+  Comment     Comment[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
+}
+
+model Image {
+  id        String   @id @default(uuid())
+  path      String
+  post      Post?    @relation(fields: [postId], references: [id])
+  postId    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Comment {
+  id          String   @id @default(uuid())
+  description String
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  post        Post     @relation(fields: [postId], references: [id])
+  postId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+}
