@@ -4,9 +4,7 @@ import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
-const newRules = {
-  USER: {},
-};
+const newRules = ["USER"];
 
 const createPermission = async (rules: any) => {
   const permission = await prisma.permission.create({
@@ -17,7 +15,7 @@ const createPermission = async (rules: any) => {
   return permission;
 };
 
-class UserController {
+export class UserController {
   async createUser(req: Request, res: Response) {
     try {
       const { name, email, password } = req.body;
@@ -44,8 +42,7 @@ class UserController {
       });
       res.status(201).json(user);
     } catch (error) {
-      console.error("Error creating user:", error);
-      res.status(500).json({ error: "Error creating user" });
+      res.status(500).json({ error: "Error ao criar usuário" });
     }
   }
 
@@ -60,8 +57,7 @@ class UserController {
 
       res.json(usersWithoutPassword);
     } catch (error) {
-      console.error("Error getting users:", error);
-      res.status(500).json({ error: "Error getting users" });
+      res.status(500).json({ error: "Error ao acessar usuário" });
     }
   }
 
@@ -73,7 +69,7 @@ class UserController {
       });
 
       if (!userFound) {
-        res.status(404).json({ error: "User not found" });
+        res.status(404).json({ error: "Usuário não encontrado" });
         return;
       }
 
@@ -81,8 +77,7 @@ class UserController {
 
       res.json(user);
     } catch (error) {
-      console.error("Error getting user by id:", error);
-      res.status(500).json({ error: "Error getting user by id" });
+      res.status(500).json({ error: "Error ao acessar usuário por id" });
     }
   }
 
@@ -96,8 +91,7 @@ class UserController {
       });
       res.json(user);
     } catch (error) {
-      console.error("Error updating user:", error);
-      res.status(500).json({ error: "Error updating user" });
+      res.status(500).json({ error: "Error ao atualizar usuário" });
     }
   }
 
@@ -110,10 +104,9 @@ class UserController {
       });
 
       if (!user) {
-        return res.status(404).json({ error: "User not found" });
+        return res.status(404).json({ error: "Usuário não encontrado" });
       }
 
-      console.log(user.permissionId);
       await prisma.user.delete({
         where: { id: userId },
       });
@@ -124,10 +117,7 @@ class UserController {
 
       res.status(204).send();
     } catch (error) {
-      console.error("Error deleting user:", error);
-      res.status(500).json({ error: "Error deleting user" });
+      res.status(500).json({ error: "Error ao deletar usuário" });
     }
   }
 }
-
-export default UserController;
