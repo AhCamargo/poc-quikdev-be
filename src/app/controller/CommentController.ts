@@ -33,7 +33,10 @@ export class CommentController {
         await sendEmail(
           user.email,
           "Novo comentário",
-          "<p>Você recebeu um <strong>novo comentário</strong> em sua postagem.</p>"
+          `<p>Você recebeu um <strong>novo comentário</strong> em sua postagem.</p>
+          <br/>
+          <p>${description}</p>
+          `
         );
       }
 

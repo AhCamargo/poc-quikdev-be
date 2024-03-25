@@ -6,8 +6,6 @@ if (!process.env.API_KEY_RESEND) {
 
 const resend = new Resend(process.env.API_KEY_RESEND);
 
-// const copyEmail: string = process.env.EMAIL_KEY_OWNER || "";
-
 export async function sendEmail(
   recipient: string,
   subject: string,
@@ -16,7 +14,7 @@ export async function sendEmail(
   try {
     await resend.emails.send({
       from: "Acme <onboarding@resend.dev>",
-      to: [...recipient, "andre.camargo500@gmail.com"],
+      to: [recipient],
       subject: subject,
       html: content,
     });
