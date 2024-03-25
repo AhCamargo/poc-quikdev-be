@@ -7,7 +7,7 @@ Junto com o ORM **PRISMA** para gerenciar o Banco de Dados **PostgreSQL**.
 # Pacotes utilizados
 
 > express cors dotenv multer prisma express-async-errors
-> @prisma/client pg bcrypt jsonwebtoken resend
+> @prisma/client pg bcrypt jsonwebtoken resend swagger-jsdoc swagger-ui-express swagger-autogen
 
 ## Para rodar esse projeto, precisa ter o _Node_ e _Docker_ instalado em sua máquina:
 
